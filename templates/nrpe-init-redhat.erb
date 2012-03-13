@@ -1,0 +1,7 @@
+# File managed by Puppet
+
+<% if scope.lookupvar('nrpe::bool_use_ssl') == true -%>
+NRPE_SSL_OPT=""
+<% else -%>
+NRPE_SSL_OPT="-n"
+<% end %>
