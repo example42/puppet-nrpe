@@ -38,7 +38,7 @@ class nrpe::params {
   $command_prefix = ''
 
   # The template used to populate the config_file_init
-  $config_file_init_content = $::operatingsystem ? {
+  $file_init_template = $::operatingsystem ? {
     /(?i:RedHat|Centos|Scientific|Fedora)/ => 'nrpe/nrpe-init-redhat.erb',
     /(?i:Debian|Ubuntu|Mint)/              => 'nrpe/nrpe-init-debian.erb',
     default                                => 'nrpe/nrpe-init-redhat.erb',
@@ -125,7 +125,7 @@ class nrpe::params {
   $my_class = ''
   $source = ''
   $source_dir = ''
-  $source_dir_purge = ''
+  $source_dir_purge = 'false'
   $template = 'nrpe/nrpe.cfg.erb' # A default file with the checks we need
   $options = ''
   $service_autorestart = true

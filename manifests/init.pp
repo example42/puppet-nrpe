@@ -45,7 +45,7 @@
 #   A command to prefix to every Nrpe command. Default: ''
 #   Typically this value can be '/usr/bin/sudo' to launch commands via sudo
 #
-# [*config_file_init_content*]
+# [*file_init_template*]
 #   The template to use to populate the init configuration file.
 #   Default is provided by the module.
 #
@@ -254,6 +254,7 @@ class nrpe (
   $connection_timeout  = params_lookup( 'connection_timeout' ),
   $command_prefix      = params_lookup( 'command_prefix' ),
   $server_address      = params_lookup( 'server_address' ),
+  $file_init_template  = params_lookup( 'file_init_template' ),
   $ntp                 = params_lookup( 'ntp' ),
   $my_class            = params_lookup( 'my_class' ),
   $source              = params_lookup( 'source' ),
@@ -370,9 +371,19 @@ class nrpe (
     default   => $nrpe::source,
   }
 
+  $manage_dir_source = $nrpe::source_dir ? {
+    ''        => undef,
+    default   => $nrpe::source_dir,
+  }
+
   $manage_file_content = $nrpe::template ? {
     ''        => undef,
     default   => template($nrpe::template),
+  }
+
+  $manage_file_init_content = $nrpe::file_init_template ? {
+    ''        => undef,
+    default   => template($nrpe::file_init_template),
   }
 
   ### Managed resources
@@ -412,26 +423,22 @@ class nrpe (
     group   => $nrpe::config_file_group,
     require => Package['nrpe'],
     notify  => $nrpe::manage_service_autorestart,
-    content => $nrpe::config_file_init_content,
+    content => $nrpe::manage_file_init_content,
     replace => $nrpe::manage_file_replace,
     audit   => $nrpe::manage_audit,
   }
 
-  # The whole nrpe configuration directory can be recursively overriden
-  if $nrpe::source_dir {
-    file { 'nrpe.dir':
-      ensure  => directory,
-      path    => $nrpe::config_dir,
-      require => Package['nrpe'],
-      notify  => $nrpe::manage_service_autorestart,
-      source  => $nrpe::source_dir,
-      recurse => true,
-      purge   => $nrpe::source_dir_purge,
-      replace => $nrpe::manage_file_replace,
-      audit   => $nrpe::manage_audit,
-    }
+  file { 'nrpe.d':
+    ensure  => directory,
+    path    => $nrpe::config_dir,
+    require => Package['nrpe'],
+    notify  => $nrpe::manage_service_autorestart,
+    source  => $nrpe::manage_dir_source,
+    recurse => true,
+    purge   => $nrpe::source_dir_purge,
+    replace => $nrpe::manage_file_replace,
+    audit   => $nrpe::manage_audit,
   }
-
 
   ### Include custom class if $my_class is set
   if $nrpe::my_class {
