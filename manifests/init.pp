@@ -428,7 +428,7 @@ class nrpe (
     audit   => $nrpe::manage_audit,
   }
 
-  file { 'nrpe.d':
+  file { 'nrpe.dir':
     ensure  => directory,
     path    => $nrpe::config_dir,
     require => Package['nrpe'],
