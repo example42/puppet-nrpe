@@ -27,6 +27,11 @@
 #   Where Nagios plugins are placed. Default value is calculated according
 #   to $::operatingsystem and $::architecture
 #
+# [*pluginspackage*]
+#   Name of the Nagios plugins package name. Default is automatically set
+#   for different distros, set to blank ( pluginspackage => '' ) to
+#   disable installation of Nagios plugins.
+#
 # [*ntp*]
 #   This setting is specific for the ntp checks. It defines the ntp server
 #   to use when verifying if local time is correct. Default:  '0.pool.ntp.org'
@@ -250,6 +255,7 @@ class nrpe (
   $dont_blame_nrpe     = params_lookup( 'dont_blame_nrpe' ),
   $use_ssl             = params_lookup( 'use_ssl' ),
   $pluginsdir          = params_lookup( 'pluginsdir' ),
+  $pluginspackage      = params_lookup( 'pluginspackage' ),
   $command_timeout     = params_lookup( 'command_timeout' ),
   $connection_timeout  = params_lookup( 'connection_timeout' ),
   $command_prefix      = params_lookup( 'command_prefix' ),
@@ -438,6 +444,13 @@ class nrpe (
     purge   => $nrpe::source_dir_purge,
     replace => $nrpe::manage_file_replace,
     audit   => $nrpe::manage_audit,
+  }
+
+  ### Install Nagios Plugins
+  if $nrpe::pluginspackage != '' {
+    if ! defined(Package[$nrpe::pluginspackage]) {
+      package { $nrpe::pluginspackage : ensure => present }
+    }
   }
 
   ### Include custom class if $my_class is set

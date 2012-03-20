@@ -29,6 +29,11 @@ class nrpe::params {
     default                                => '/usr/lib/nagios/plugins',
   }
 
+  $pluginspackage = $operatingsystem ? {
+    /(?i:RedHat|Centos|Scientific|Fedora)/ => 'nagios-plugins-all',
+    default                                => 'nagios-plugins',
+  }
+
   # Needed for ntp checks
   $ntp = '0.pool.ntp.org'
 
