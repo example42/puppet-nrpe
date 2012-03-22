@@ -29,7 +29,7 @@ class nrpe::params {
     default                                => '/usr/lib/nagios/plugins',
   }
 
-  $pluginspackage = $operatingsystem ? {
+  $pluginspackage = $::operatingsystem ? {
     /(?i:RedHat|Centos|Scientific|Fedora)/ => 'nagios-plugins-all',
     default                                => 'nagios-plugins',
   }
@@ -106,7 +106,7 @@ class nrpe::params {
   }
 
   $pid_file = $::operatingsystem ? {
-    /(?i:Debian|Ubuntu|Mint)/              => '/var/run/nagios/nrpe.pid',
+    /(?i:Ubuntu|Mint)/                     => '/var/run/nagios/nrpe.pid',
     /(?i:Centos|RedHat|Scientific|Fedora)/ => '/var/run/nrpe/nrpe.pid',
     default                                => '/etc/run/nrpe.pid',
   }

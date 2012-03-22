@@ -341,7 +341,7 @@ class nrpe (
   }
 
   $manage_service_autorestart = $nrpe::bool_service_autorestart ? {
-    true    => 'Service[nrpe]',
+    true    => Service['nrpe'],
     false   => undef,
   }
 
