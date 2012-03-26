@@ -106,7 +106,7 @@ class nrpe::params {
   }
 
   $pid_file = $::operatingsystem ? {
-    /(?i:Debian|Ubuntu|Mint)/              => '/var/run/nagios/nrpe.pid',
+    /(?i:Ubuntu|Mint)/                     => '/var/run/nagios/nrpe.pid',
     /(?i:Centos|RedHat|Scientific|Fedora)/ => '/var/run/nrpe/nrpe.pid',
     default                                => '/etc/run/nrpe.pid',
   }
