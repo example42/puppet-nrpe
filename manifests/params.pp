@@ -29,7 +29,7 @@ class nrpe::params {
     default                                => '/usr/lib/nagios/plugins',
   }
 
-  $pluginspackage = $operatingsystem ? {
+  $pluginspackage = $::operatingsystem ? {
     /(?i:RedHat|Centos|Scientific|Fedora)/ => 'nagios-plugins-all',
     default                                => 'nagios-plugins',
   }
