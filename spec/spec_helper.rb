@@ -15,6 +15,8 @@ RSpec.configure do |c|
     Puppet[:confdir] = @puppetdir
   end
 
+  c.filter_run_excluding :broken => true
+
   c.after :each do
     FileUtils.remove_entry_secure(@puppetdir)
   end
