@@ -494,8 +494,8 @@ class nrpe (
   ### Firewall management, if enabled ( firewall => true )
   if $nrpe::bool_firewall == true {
     firewall { "nrpe_${nrpe::protocol}_${nrpe::port}":
-      source      => $nrpe::firewall_source,
-      destination => $nrpe::firewall_destination,
+      source      => $nrpe::firewall_src,
+      destination => $nrpe::firewall_dst,
       protocol    => $nrpe::protocol,
       port        => $nrpe::port,
       action      => 'allow',
