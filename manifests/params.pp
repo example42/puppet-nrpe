@@ -130,7 +130,7 @@ class nrpe::params {
   $my_class = ''
   $source = ''
   $source_dir = ''
-  $source_dir_purge = 'false'
+  $source_dir_purge = false
   $template = 'nrpe/nrpe.cfg.erb' # A default file with the checks we need
   $options = ''
   $service_autorestart = true

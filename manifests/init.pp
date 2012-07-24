@@ -441,7 +441,7 @@ class nrpe (
     notify  => $nrpe::manage_service_autorestart,
     source  => $nrpe::manage_dir_source,
     recurse => true,
-    purge   => $nrpe::source_dir_purge,
+    purge   => $nrpe::bool_source_dir_purge,
     replace => $nrpe::manage_file_replace,
     audit   => $nrpe::manage_audit,
   }
