@@ -36,6 +36,14 @@
 #   This setting is specific for the ntp checks. It defines the ntp server
 #   to use when verifying if local time is correct. Default:  '0.pool.ntp.org'
 #
+# [*checkdisk_warning*]
+#   This setting is specific for the disk checks. It defines the warning level
+#   for disk checks. Default: 20
+#
+# [*checkdisk_critical*]
+#   This setting is specific for the disk checks. It defines the critical level
+#   for disk checks. Default: 10
+#
 # [*command_timeout*]
 #   The timeout for commands executed by Nrpe. Default: '60'
 #
@@ -262,6 +270,8 @@ class nrpe (
   $server_address      = params_lookup( 'server_address' ),
   $file_init_template  = params_lookup( 'file_init_template' ),
   $ntp                 = params_lookup( 'ntp' ),
+  $checkdisk_warning   = params_lookup( 'checkdisk_warning' ),
+  $checkdisk_critical  = params_lookup( 'checkdisk_critical' ),
   $my_class            = params_lookup( 'my_class' ),
   $source              = params_lookup( 'source' ),
   $source_dir          = params_lookup( 'source_dir' ),

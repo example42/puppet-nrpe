@@ -36,6 +36,8 @@ class nrpe::params {
 
   # Needed for ntp checks
   $ntp = '0.pool.ntp.org'
+  $checkdisk_warning = '20'
+  $checkdisk_critical = '10'
 
   $command_timeout = '60'
   $connection_timeout = '300'
