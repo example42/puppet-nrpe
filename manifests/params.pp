@@ -22,16 +22,16 @@ class nrpe::params {
   $use_ssl = true
 
   $pluginsdir = $::operatingsystem ? {
-    /(?i:RedHat|Centos|Scientific|Fedora)/ => $::architecture ? {
+    /(?i:RedHat|Centos|Scientific|Fedora|Amazon|Linux)/ => $::architecture ? {
       x86_64  => '/usr/lib64/nagios/plugins',
       default => '/usr/lib/nagios/plugins',
     },
-    default                                => '/usr/lib/nagios/plugins',
+    default                                             => '/usr/lib/nagios/plugins',
   }
 
   $pluginspackage = $::operatingsystem ? {
-    /(?i:RedHat|Centos|Scientific|Fedora)/ => 'nagios-plugins-all',
-    default                                => 'nagios-plugins',
+    /(?i:RedHat|Centos|Scientific|Fedora|Amazon|Linux)/ => 'nagios-plugins-all',
+    default                                             => 'nagios-plugins',
   }
 
   # Needed for ntp checks
@@ -46,9 +46,9 @@ class nrpe::params {
 
   # The template used to populate the config_file_init
   $file_init_template = $::operatingsystem ? {
-    /(?i:RedHat|Centos|Scientific|Fedora)/ => 'nrpe/nrpe-init-redhat.erb',
-    /(?i:Debian|Ubuntu|Mint)/              => 'nrpe/nrpe-init-debian.erb',
-    default                                => 'nrpe/nrpe-init-redhat.erb',
+    /(?i:RedHat|Centos|Scientific|Fedora|Amazon|Linux)/ => 'nrpe/nrpe-init-redhat.erb',
+    /(?i:Debian|Ubuntu|Mint)/                           => 'nrpe/nrpe-init-debian.erb',
+    default                                             => 'nrpe/nrpe-init-redhat.erb',
   }
 
   ### Application related parameters
@@ -108,9 +108,9 @@ class nrpe::params {
   }
 
   $pid_file = $::operatingsystem ? {
-    /(?i:Ubuntu|Mint)/                     => '/var/run/nagios/nrpe.pid',
-    /(?i:Centos|RedHat|Scientific|Fedora)/ => '/var/run/nrpe/nrpe.pid',
-    default                                => '/etc/run/nrpe.pid',
+    /(?i:Ubuntu|Mint)/                                  => '/var/run/nagios/nrpe.pid',
+    /(?i:Centos|RedHat|Scientific|Fedora|Amazon|Linux)/ => '/var/run/nrpe/nrpe.pid',
+    default                                             => '/etc/run/nrpe.pid',
   }
 
   $data_dir = $::operatingsystem ? {
