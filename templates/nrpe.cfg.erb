@@ -2,7 +2,7 @@
 log_facility=daemon
 pid_file=<%= scope.lookupvar('nrpe::pid_file') %>
 server_port=<%= scope.lookupvar('nrpe::port') %>
-<% if scope.lookupvar('nrpe::server_address') != '' -%>server_address=<%= scope.lookupvar('nrpe::server_address') %><% end -%>
+<% if scope.lookupvar('nrpe::server_address') != '' -%>server_address=<%= scope.lookupvar('nrpe::server_address') %><% end %>
 nrpe_user=<%= scope.lookupvar('nrpe::process_user') %>
 nrpe_group=<%= scope.lookupvar('nrpe::process_user') %>
 allowed_hosts=<% if allowed_hosts.class == Array then %><%= allowed_hosts.flatten.join(',') %><% else %><%= allowed_hosts %><% end %>
