@@ -403,7 +403,7 @@ class nrpe (
   }
 
   ### Managed resources
-  package { 'nrpe':
+  package { $package:
     ensure => $nrpe::manage_package,
     name   => $nrpe::package,
   }
@@ -414,7 +414,7 @@ class nrpe (
     enable     => $nrpe::manage_service_enable,
     hasstatus  => $nrpe::service_status,
     pattern    => $nrpe::process,
-    require    => Package['nrpe'],
+    require    => Package[$package],
   }
 
   file { 'nrpe.conf':
@@ -423,7 +423,7 @@ class nrpe (
     mode    => $nrpe::config_file_mode,
     owner   => $nrpe::config_file_owner,
     group   => $nrpe::config_file_group,
-    require => Package['nrpe'],
+    require => Package[$package],
     notify  => $nrpe::manage_service_autorestart,
     source  => $nrpe::manage_file_source,
     content => $nrpe::manage_file_content,
@@ -437,7 +437,7 @@ class nrpe (
     mode    => $nrpe::config_file_mode,
     owner   => $nrpe::config_file_owner,
     group   => $nrpe::config_file_group,
-    require => Package['nrpe'],
+    require => Package[$package],
     notify  => $nrpe::manage_service_autorestart,
     content => $nrpe::manage_file_init_content,
     replace => $nrpe::manage_file_replace,
@@ -447,7 +447,7 @@ class nrpe (
   file { 'nrpe.dir':
     ensure  => directory,
     path    => $nrpe::config_dir,
-    require => Package['nrpe'],
+    require => Package[$package],
     notify  => $nrpe::manage_service_autorestart,
     source  => $nrpe::manage_dir_source,
     recurse => true,
