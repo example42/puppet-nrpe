@@ -1,4 +1,4 @@
-= Puppet module: nrpe
+# Puppet module: nrpe
 
 This is a Puppet module for nrpe based on the second generation layout ("NextGen") of Example42 Puppet Modules.
 
@@ -14,7 +14,7 @@ This module requires functions provided by the Example42 Puppi module (you need 
 
 For detailed info about the logic and usage patterns of Example42 modules check the DOCS directory on Example42 main modules set.
 
-== USAGE - Basic management
+## USAGE - Basic management
 
 * Install nrpe with default settings
 
@@ -39,7 +39,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         }
 
 
-== USAGE - Module specific parameters
+## USAGE - Module specific parameters
 
 * Define the hosts allowed to connect to NRPE (typically the Nagios servers) 
   This can be an array. Local host and local IP should be kept
@@ -64,7 +64,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           pluginspackage => '',
         }
 
-== USAGE - Overrides and Customizations
+## USAGE - Overrides and Customizations
 * Use custom sources for main config file. Note that by default the module provides a config file as a template, so you've to undet the template argument.
 
         class { 'nrpe':
@@ -92,7 +92,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         }
 
 
-== USAGE - Example42 extensions management 
+## USAGE - Example42 extensions management 
 * Activate puppi (recommended, but disabled by default)
 
         class { 'nrpe':
