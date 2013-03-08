@@ -121,11 +121,8 @@ describe 'nrpe' do
     end
   end
 
-  describe 'Test service autorestart', :broken => true do
-    it 'should automatically restart the service, by default' do
-      content = catalogue.resource('file', 'nrpe.conf').send(:parameters)[:notify]
-      content.should include "Service[nrpe]{:name=>'nrpe'}"
-    end
+  describe 'Test service autorestart' do
+    it { should contain_file('nrpe.conf').with_notify('Service[nrpe]') }
   end
 
   describe 'Test service autorestart' do
