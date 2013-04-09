@@ -91,6 +91,10 @@ class nrpe::params {
   }
 
   $config_file = $::operatingsystem ? {
+    /(?i:SLES|OpenSuSE)/      => $::operatingsystemrelease ? {
+      '12.3'   => '/etc/nrpe.cfg',
+      default  => '/etc/nagios/nrpe.cfg',
+    },
     default => '/etc/nagios/nrpe.cfg',
   }
 
@@ -114,7 +118,7 @@ class nrpe::params {
   $pid_file = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/                           => '/var/run/nagios/nrpe.pid',
     /(?i:Centos|RedHat|Scientific|Fedora|Amazon|Linux)/ => '/var/run/nrpe/nrpe.pid',
-    default                                             => '/etc/run/nrpe.pid',
+    default                                             => '/var/run/nrpe/nrpe.pid',
   }
 
   $data_dir = $::operatingsystem ? {
