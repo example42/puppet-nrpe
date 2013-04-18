@@ -63,9 +63,11 @@ For detailed info about the logic and usage patterns of Example42 modules check 
         class { 'nrpe':
           pluginspackage => '',
         }
+
 * Include Nagios Plugin 
-	        nrpe::plugin { 'check_foobar':
-                 source => 'files/nrpe/check_foobar',
+
+	    nrpe::plugin { 'check_foobar':
+              source => 'files/nrpe/check_foobar'
         }
 
 ## USAGE - Overrides and Customizations
