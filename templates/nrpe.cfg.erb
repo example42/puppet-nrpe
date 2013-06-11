@@ -33,3 +33,4 @@ command[check_ageandcontent]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_ag
 command[check_total_procs]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_procs -w 150 -c 200 
 command[check_ntp]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_ntp -H <%= scope.lookupvar("nrpe::ntp") %>
 command[check_apt]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_apt
+command[check_sda1]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_disk -w 15% -c 5% -p /dev/sda1
