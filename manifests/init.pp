@@ -482,13 +482,6 @@ class nrpe (
 
   ### Service monitoring, if enabled ( monitor => true )
   if $nrpe::bool_monitor == true {
-    monitor::port { "nrpe_${nrpe::protocol}_${nrpe::port}":
-      protocol => $nrpe::protocol,
-      port     => $nrpe::port,
-      target   => $nrpe::monitor_target,
-      tool     => $nrpe::monitor_tool,
-      enable   => $nrpe::manage_monitor,
-    }
     monitor::process { 'nrpe_process':
       process  => $nrpe::process,
       service  => $nrpe::service,
