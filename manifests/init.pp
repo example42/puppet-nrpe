@@ -245,6 +245,9 @@
 #   This is used by monitor, firewall and puppi (optional) components
 #   Can be defined also by the (top scope) variable $nrpe_protocol
 #
+# [*version*]
+#   The version of nrpe package to be installed
+#
 #
 # == Examples
 #
