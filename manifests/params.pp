@@ -145,6 +145,7 @@ class nrpe::params {
   $options = ''
   $service_autorestart = true
   $absent = false
+  $version = ''
   $disable = false
   $disableboot = false
 
