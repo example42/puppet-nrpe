@@ -329,7 +329,7 @@ class nrpe (
   ### Definition of some variables used in the module
   $manage_package = $nrpe::bool_absent ? {
     true  => 'absent',
-    false => $nrpe::version {
+    false => $nrpe::version ? {
       ''      => 'present',
       default => $nrpe::version,
     },
