@@ -133,6 +133,9 @@ class nrpe::params {
     default => '/var/log/messages',
   }
 
+  $enable_sysstat  = false
+  $sysstat_package = 'sysstat'
+
   $port = '5666'
   $protocol = 'tcp'
 

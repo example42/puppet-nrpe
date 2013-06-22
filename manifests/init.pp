@@ -248,6 +248,11 @@
 # [*version*]
 #   The version of nrpe package to be installed
 #
+# [*enable_sysstat*]
+#   Enable various services through sysstat/sar.
+#
+# [*sysstat_package*]
+#   The package to install when $enable_sysstat was set to true
 #
 # == Examples
 #
@@ -314,11 +319,14 @@ class nrpe (
   $log_file            = params_lookup( 'log_file' ),
   $port                = params_lookup( 'port' ),
   $protocol            = params_lookup( 'protocol' ),
-  $version             = params_lookup( 'version' )
+  $version             = params_lookup( 'version' ),
+  $enable_sysstat      = params_lookup( 'enable_sysstat' ),
+  $sysstat_package     = params_lookup( 'sysstat_package')
   ) inherits nrpe::params {
 
   $bool_use_ssl=any2bool($use_ssl)
   $bool_source_dir_purge=any2bool($source_dir_purge)
+  $bool_enable_sysstat=any2bool($enable_sysstat)
   $bool_service_autorestart=any2bool($service_autorestart)
   $bool_absent=any2bool($absent)
   $bool_disable=any2bool($disable)
@@ -468,6 +476,10 @@ class nrpe (
     if ! defined(Package[$nrpe::pluginspackage]) {
       package { $nrpe::pluginspackage : ensure => present }
     }
+  }
+
+  if $bool_enable_sysstat == true {
+    include nrpe::plugin::check_sar_perf
   }
 
   ### Include custom class if $my_class is set
