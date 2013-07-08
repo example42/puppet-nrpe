@@ -59,7 +59,11 @@ define nrpe::plugin (
       require => Package['nrpe'],
       notify  => Service['nrpe'],
       source  => $source_path,
-      content => $content
+      content => $content,
+      seluser => "system_u",
+      selrole => "object_r",
+      seltype => "nagios_unconfined_plugin_exec_t",
+      selrange => "s0",
     }
   }
 
