@@ -1,70 +1,65 @@
 # Define: nrpe::plugin
 #
-# Adds or configures a Nrpe plugin
+# Installs and configures a Nrpe plugin
 #
 # == Parameters
 #
 # Module Specific parameters
 #
-# [*source*]
-#   The source of the content to use as plugin.
-#   Can be omitted if a template path is specified instead.
-#
-# [*source_prefix*]
-#   Prefix of the source. Defaults to puppet:///
-#
-# [*template*]
-#   The template to use for the plugin contents.
-#
 # [*enable*]
-#   To enable, or not to enable - that's the question.
+#   Is this plugin enabled?
+#
+# [*package*]
+#   Name of the package (if any) needed by the plugin
 #
 #
 # == Examples#
 # Provide a custom plugin:
 #
-# nrpe::plugin { 'check_redis':
+# nrpe::plugin { 'check_sar_perf':
 #   source => 'example42/nrpe/redis',
 # }
 #
 
 define nrpe::plugin (
-  $source = '',
-  $source_prefix = 'puppet:///',
-  $template = undef,
   $enable = true,
+  $package = undef,
 ) {
 
-  $ensure = bool2ensure($enable)
-
-  if ($source == undef or $source == '') {
-    $source_path = undef
-  } else {
-    $source_path = "${source_prefix}${source}"
+  ## Ensures package, config and plugin are removed in case the
+  ## specific plugin is turned off or NRPE is removed.
+  $ensure = $nrpe::bool_absent ? {
+    true    => 'absent',
+    default => $enable ? {
+      true    => 'present',
+      default => 'absent',
+    },
   }
-
-  if ($template != undef) {
-    $content = template($template)
-  } else {
-    $content = undef
-  }
-
-  if $source_path or $content {
-    file { "Nrpe_plugin_${name}":
-      path    => "${nrpe::pluginsdir}/${name}",
-      owner   => root,
-      group   => root,
-      mode    => '0755',
-      ensure  => $ensure,
-      require => Package['nrpe'],
-      notify  => Service['nrpe'],
-      source  => $source_path,
-      content => $content,
-      seluser => "system_u",
-      selrole => "object_r",
-      seltype => "nagios_unconfined_plugin_exec_t",
-      selrange => "s0",
+  
+  if $package != undef and $package != ''
+  {
+    nrpe::plugin_package {$package: 
+      ensure => $ensure,
     }
+  }
+  
+  nrpe::plugin_config {$name: 
+    ensure => $ensure,
+  }
+
+  file { "Nrpe_plugin_${name}":
+    path    => "${nrpe::pluginsdir}/${name}",
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    ensure  => $ensure,
+    require => Package['nrpe'],
+    notify  => Service['nrpe'],
+    content => template("nrpe/plugin/${name}.erb"),
+    seluser => "system_u",
+    selrole => "object_r",
+    seltype => "nagios_unconfined_plugin_exec_t",
+    selrange => "s0",
   }
 
 }

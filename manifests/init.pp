@@ -478,8 +478,9 @@ class nrpe (
     }
   }
 
-  if $bool_enable_sysstat == true {
-    include nrpe::plugin::check_sar_perf
+  nrpe::plugin { 'check_sar_perf': 
+    enable  => $bool_enable_sysstat,
+    package => $nrpe::sysstat_package,
   }
 
   ### Include custom class if $my_class is set
