@@ -9,6 +9,12 @@
 # [*enable*]
 #   Is this plugin enabled?
 #
+# [*plugin*]
+#   Name of the plugin (if any) to be installed
+#
+# [*config*]
+#   Name of the config (if any) to be installed for the plugin
+#
 # [*package*]
 #   Name of the package (if any) needed by the plugin
 #
@@ -17,12 +23,17 @@
 # Provide a custom plugin:
 #
 # nrpe::plugin { 'check_sar_perf':
-#   source => 'example42/nrpe/redis',
+#   enable  => $bool_enable_sysstat,
+#   plugin => 'check_sar_perf',
+#   config => 'check_sar_perf',
+#   package => $nrpe::sysstat_package,
 # }
 #
 
 define nrpe::plugin (
-  $enable = true,
+  $enable = false,
+  $plugin = undef,
+  $config = undef,
   $package = undef,
 ) {
 
@@ -35,31 +46,26 @@ define nrpe::plugin (
       default => 'absent',
     },
   }
-  
+
+  if $plugin != undef and $plugin != ''
+  {
+	  nrpe::plugin_script {$name: 
+	    ensure => $ensure,
+	  }
+  }
+
+  if $config != undef and $config != ''
+  {
+    nrpe::plugin_config {$config: 
+      ensure => $ensure,
+    }
+  }
+
   if $package != undef and $package != ''
   {
     nrpe::plugin_package {$package: 
       ensure => $ensure,
     }
-  }
-  
-  nrpe::plugin_config {$name: 
-    ensure => $ensure,
-  }
-
-  file { "Nrpe_plugin_${name}":
-    path    => "${nrpe::pluginsdir}/${name}",
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    ensure  => $ensure,
-    require => Package['nrpe'],
-    notify  => Service['nrpe'],
-    content => template("nrpe/plugin/${name}.erb"),
-    seluser => "system_u",
-    selrole => "object_r",
-    seltype => "nagios_unconfined_plugin_exec_t",
-    selrange => "s0",
   }
 
 }

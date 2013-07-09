@@ -19,7 +19,7 @@
 # Install package for a plugin:
 #
 # nrpe::plugin_package { 'sysstat':
-#   enable => true,
+#   ensure => 'present',
 # }
 #
 

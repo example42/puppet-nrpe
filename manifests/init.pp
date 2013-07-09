@@ -480,6 +480,8 @@ class nrpe (
 
   nrpe::plugin { 'check_sar_perf': 
     enable  => $bool_enable_sysstat,
+    plugin => 'check_sar_perf',
+    config => 'check_sar_perf',
     package => $nrpe::sysstat_package,
   }
 

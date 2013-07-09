@@ -19,7 +19,7 @@
 # Install config for a plugin:
 #
 # nrpe::plugin_config { 'check_sar_perf':
-#   enable => true,
+#   ensure => 'present',
 # }
 #
 
