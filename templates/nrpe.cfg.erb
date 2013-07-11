@@ -5,7 +5,7 @@ server_port=<%= scope.lookupvar('nrpe::port') %>
 <% if scope.lookupvar('nrpe::server_address') != '' -%>server_address=<%= scope.lookupvar('nrpe::server_address') %><% end %>
 nrpe_user=<%= scope.lookupvar('nrpe::process_user') %>
 nrpe_group=<%= scope.lookupvar('nrpe::process_user') %>
-allowed_hosts=<% if allowed_hosts.class == Array then %><%= allowed_hosts.flatten.join(',') %><% else %><%= allowed_hosts %><% end %>
+allowed_hosts=<% if @allowed_hosts.class == Array then %><%= @allowed_hosts.flatten.join(',') %><% else %><%= @allowed_hosts %><% end %>
 dont_blame_nrpe=<%= scope.lookupvar('nrpe::dont_blame_nrpe') %>
 <% if scope.lookupvar('nrpe::command_prefix') != '' -%>command_prefix=<%= scope.lookupvar('nrpe::command_prefix') %><% end -%>
 debug=0
@@ -25,7 +25,7 @@ command[check_url]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_http -I "$AR
 command[check_url_auth]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_http -I "$ARG1$" -p "$ARG2$" -u "$ARG3$" -r "$ARG4$" -a "$ARG5$" -A "$ARG6$"-H "$ARG7"
 command[check_swap]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_swap -w 40% -c 20%
 command[check_mailq]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_mailq -w 1 -c 5
-command[check_all_disks]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_disk -w 20% -c 10% -L -X tmpfs
+command[check_all_disks_param]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_disk -w 20% -c 10% -L -X tmpfs
 command[check_users]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_users -w 5 -c 10
 command[check_load]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_load -w 15,10,5 -c 30,25,20
 command[check_zombie_procs]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_procs -w 5 -c 10 -s Z

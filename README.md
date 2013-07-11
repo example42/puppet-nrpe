@@ -70,6 +70,13 @@ For detailed info about the logic and usage patterns of Example42 modules check 
               source => 'files/nrpe/check_foobar'
         }
 
+* Install nrpe with a specific version
+
+        class { 'nrpe':
+          version => '2.12-4'
+        }
+
+
 ## USAGE - Overrides and Customizations
 * Use custom sources for main config file. Note that by default the module provides a config file as a template, so you've to undet the template argument.
 

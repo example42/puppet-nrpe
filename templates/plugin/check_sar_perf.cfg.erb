@@ -1,0 +1,12 @@
+# File managed by Puppet
+
+command[check_sar_pagestat]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf pagestat
+command[check_sar_cpu]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf cpu
+command[check_sar_memory_util]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf memory_util
+command[check_sar_memory_stat]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf memory_stat
+command[check_sar_io_transfer]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf io_transfer
+command[check_sar_queueln_load]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf queueln_load
+command[check_sar_swap_util]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf swap_util
+command[check_sar_swap_stat]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf swap_stat
+command[check_sar_task]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf task
+command[check_sar_kernel]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_sar_perf kernel

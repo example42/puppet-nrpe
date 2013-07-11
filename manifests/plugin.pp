@@ -2,9 +2,27 @@
 #
 # Adds or configures a Nrpe plugin
 #
-# Usage:
+# == Parameters
 #
+# Module Specific parameters
+#
+# [*source*]
+#   The source of the content to use as plugin.
+#   Can be omitted if a template path is specified instead.
+#
+# [*source_prefix*]
+#   Prefix of the source. Defaults to puppet:///
+#
+# [*template*]
+#   The template to use for the plugin contents.
+#
+# [*enable*]
+#   To enable, or not to enable - that's the question.
+#
+#
+# == Examples#
 # Provide a custom plugin:
+#
 # nrpe::plugin { 'check_redis':
 #   source => 'example42/nrpe/redis',
 # }
@@ -12,11 +30,26 @@
 
 define nrpe::plugin (
   $source = '',
-  $enable = true ) {
+  $source_prefix = 'puppet:///',
+  $template = undef,
+  $enable = true,
+) {
 
   $ensure = bool2ensure($enable)
 
-  if $source {
+  if ($source == undef or $source == '') {
+    $source_path = undef
+  } else {
+    $source_path = "${source_prefix}${source}"
+  }
+
+  if ($template != undef) {
+    $content = template($template)
+  } else {
+    $content = undef
+  }
+
+  if $source_path or $content {
     file { "Nrpe_plugin_${name}":
       path    => "${nrpe::pluginsdir}/${name}",
       owner   => root,
@@ -25,10 +58,13 @@ define nrpe::plugin (
       ensure  => $ensure,
       require => Package['nrpe'],
       notify  => Service['nrpe'],
-      source  => "puppet:///$source",
+      source  => $source_path,
+      content => $content,
+      seluser => "system_u",
+      selrole => "object_r",
+      seltype => "nagios_unconfined_plugin_exec_t",
+      selrange => "s0",
     }
   }
 
-
 }
-

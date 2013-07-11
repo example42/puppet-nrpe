@@ -245,6 +245,14 @@
 #   This is used by monitor, firewall and puppi (optional) components
 #   Can be defined also by the (top scope) variable $nrpe_protocol
 #
+# [*version*]
+#   The version of nrpe package to be installed
+#
+# [*enable_sysstat*]
+#   Enable various services through sysstat/sar.
+#
+# [*sysstat_package*]
+#   The package to install when $enable_sysstat was set to true
 #
 # == Examples
 #
@@ -310,11 +318,15 @@ class nrpe (
   $log_dir             = params_lookup( 'log_dir' ),
   $log_file            = params_lookup( 'log_file' ),
   $port                = params_lookup( 'port' ),
-  $protocol            = params_lookup( 'protocol' )
+  $protocol            = params_lookup( 'protocol' ),
+  $version             = params_lookup( 'version' ),
+  $enable_sysstat      = params_lookup( 'enable_sysstat' ),
+  $sysstat_package     = params_lookup( 'sysstat_package')
   ) inherits nrpe::params {
 
   $bool_use_ssl=any2bool($use_ssl)
   $bool_source_dir_purge=any2bool($source_dir_purge)
+  $bool_enable_sysstat=any2bool($enable_sysstat)
   $bool_service_autorestart=any2bool($service_autorestart)
   $bool_absent=any2bool($absent)
   $bool_disable=any2bool($disable)
@@ -328,7 +340,10 @@ class nrpe (
   ### Definition of some variables used in the module
   $manage_package = $nrpe::bool_absent ? {
     true  => 'absent',
-    false => 'present',
+    false => $nrpe::version ? {
+      ''      => 'present',
+      default => $nrpe::version,
+    },
   }
 
   $manage_service_enable = $nrpe::bool_disableboot ? {
@@ -463,6 +478,10 @@ class nrpe (
     }
   }
 
+  if $bool_enable_sysstat == true {
+    include nrpe::plugin::check_sar_perf
+  }
+
   ### Include custom class if $my_class is set
   if $nrpe::my_class {
     include $nrpe::my_class
@@ -482,13 +501,6 @@ class nrpe (
 
   ### Service monitoring, if enabled ( monitor => true )
   if $nrpe::bool_monitor == true {
-    monitor::port { "nrpe_${nrpe::protocol}_${nrpe::port}":
-      protocol => $nrpe::protocol,
-      port     => $nrpe::port,
-      target   => $nrpe::monitor_target,
-      tool     => $nrpe::monitor_tool,
-      enable   => $nrpe::manage_monitor,
-    }
     monitor::process { 'nrpe_process':
       process  => $nrpe::process,
       service  => $nrpe::service,
