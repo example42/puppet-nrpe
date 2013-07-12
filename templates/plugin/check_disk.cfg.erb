@@ -1,0 +1,6 @@
+# File Managed by Puppet
+<% if scope.lookupvar('nrpe::checkdisk_warning') != :undefined and scope.lookupvar('nrpe::checkdisk_warning') != "" and scope.lookupvar('nrpe::checkdisk_critical') != :undefined and scope.lookupvar('nrpe::checkdisk_critical') != "" -%>
+command[check_all_disks_param]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_disk -w <%= scope.lookupvar('nrpe::checkdisk_warning')%>% -c <%= scope.lookupvar('nrpe::checkdisk_critical')%>% -L -X tmpfs
+<% else -%>
+command[check_all_disks_param]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_disk -w 20% -c 10% -L -X tmpfs
+<% end -%>

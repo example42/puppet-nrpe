@@ -35,7 +35,7 @@ define nrpe::plugin_script (
     ensure  => $ensure,
     require => Package['nrpe'],
     notify  => Service['nrpe'],
-    content => template("nrpe/plugin/${name}.erb"),
+    source  => "puppet:///modules/nrpe/plugin/${name}",
     seluser => "system_u",
     selrole => "object_r",
     seltype => "nagios_unconfined_plugin_exec_t",

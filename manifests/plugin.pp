@@ -31,10 +31,10 @@
 #
 
 define nrpe::plugin (
-  $enable = false,
-  $plugin = undef,
-  $config = undef,
-  $package = undef,
+  $enable         = false,
+  $plugin         = undef,
+  $config         = undef,
+  $package        = undef,
 ) {
 
   ## Ensures package, config and plugin are removed in case the
@@ -49,7 +49,7 @@ define nrpe::plugin (
 
   if $plugin != undef and $plugin != ''
   {
-	  nrpe::plugin_script {$name: 
+	  nrpe::plugin_script {$plugin: 
 	    ensure => $ensure,
 	  }
   }

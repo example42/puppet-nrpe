@@ -14,6 +14,10 @@
 #
 class nrpe::params {
 
+  ## This variable lets the monitoring tools know that NRPE is on
+  ## it should not be changed or overiden.
+  $on = true
+
   ## Class specific parameters
   $allowed_hosts = [ '127.0.0.1' , $::ipaddress ]
 
@@ -133,8 +137,18 @@ class nrpe::params {
     default => '/var/log/messages',
   }
 
-  $enable_sysstat  = false
-  $sysstat_package = 'sysstat'
+  $enable_sysstat             = false
+  $sysstat_package            = 'sysstat'
+  
+  $enable_check_yum           = true
+  
+  $enable_check_mount         = true
+  
+  $enable_check_disk          = true
+  
+  $enable_check_ageandcontent = true
+  
+  $enable_check_oracle        = false
 
   $port = '5666'
   $protocol = 'tcp'

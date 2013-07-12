@@ -254,6 +254,22 @@
 # [*sysstat_package*]
 #   The package to install when $enable_sysstat was set to true
 #
+# [*enable_check_yum*]
+#   Enable check_yum
+#
+# [*enable_check_mount*]
+#   Enable check_mount
+#
+# [*enable_check_disk*]
+#   Enable check_disk
+#
+# [*enable_check_ageandcontent*]
+#   Enable check_ageandcontent
+#
+# [*enable_check_oracle*]
+#   Enable check_oracle
+#
+#
 # == Examples
 #
 # You can use this class in 2 ways:
@@ -316,17 +332,27 @@ class nrpe (
   $pid_file            = params_lookup( 'pid_file' ),
   $data_dir            = params_lookup( 'data_dir' ),
   $log_dir             = params_lookup( 'log_dir' ),
-  $log_file            = params_lookup( 'log_file' ),
-  $port                = params_lookup( 'port' ),
-  $protocol            = params_lookup( 'protocol' ),
-  $version             = params_lookup( 'version' ),
-  $enable_sysstat      = params_lookup( 'enable_sysstat' ),
-  $sysstat_package     = params_lookup( 'sysstat_package')
+  $log_file                   = params_lookup( 'log_file' ),
+  $port                       = params_lookup( 'port' ),
+  $protocol                   = params_lookup( 'protocol' ),
+  $version                    = params_lookup( 'version' ),
+  $enable_sysstat             = params_lookup( 'enable_sysstat' ),
+  $sysstat_package            = params_lookup( 'sysstat_package'),
+  $enable_check_yum           = params_lookup( 'enable_check_yum' ),
+  $enable_check_mount         = params_lookup( 'enable_check_mount' ),
+  $enable_check_disk          = params_lookup( 'enable_check_disk' ),
+  $enable_check_ageandcontent = params_lookup( 'enable_check_ageandcontent' ),
+  $enable_check_oracle        = params_lookup( 'enable_check_oracle' ),
   ) inherits nrpe::params {
 
   $bool_use_ssl=any2bool($use_ssl)
   $bool_source_dir_purge=any2bool($source_dir_purge)
   $bool_enable_sysstat=any2bool($enable_sysstat)
+  $bool_enable_check_yum=any2bool($enable_check_yum)
+  $bool_enable_check_mount=any2bool($enable_check_mount)
+  $bool_enable_check_disk=any2bool($enable_check_disk)
+  $bool_enable_check_ageandcontent=any2bool($enable_check_ageandcontent)
+  $bool_enable_check_oracle=any2bool($enable_check_oracle)
   $bool_service_autorestart=any2bool($service_autorestart)
   $bool_absent=any2bool($absent)
   $bool_disable=any2bool($disable)
@@ -480,9 +506,35 @@ class nrpe (
 
   nrpe::plugin { 'check_sar_perf': 
     enable  => $bool_enable_sysstat,
-    plugin => 'check_sar_perf',
-    config => 'check_sar_perf',
+    plugin  => 'check_sar_perf',
+    config  => 'check_sar_perf',
     package => $nrpe::sysstat_package,
+  }
+  
+  nrpe::plugin { 'check_yum': 
+    enable  => $bool_enable_check_yum,
+    plugin  => 'check_yum',
+    config  => 'check_yum',
+  }
+  
+  nrpe::plugin { 'check_mount': 
+    enable  => $bool_enable_check_mount,
+    plugin  => 'check_mount',
+  }
+
+  nrpe::plugin { 'check_disk': 
+    enable  => $bool_enable_check_disk,
+    config  => 'check_disk',
+  }
+
+  nrpe::plugin { 'check_ageandcontent': 
+    enable  => $bool_enable_check_ageandcontent,
+    plugin  => 'check_ageandcontent.pl',
+  }
+
+  nrpe::plugin { 'check_oracle': 
+    enable  => $bool_enable_check_disk,
+    plugin  => 'check_oracle',
   }
 
   ### Include custom class if $my_class is set
