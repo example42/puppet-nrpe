@@ -34,7 +34,7 @@ define nrpe::plugin (
   $enable         = false,
   $plugin         = undef,
   $config         = undef,
-  $package        = undef,
+  $package        = undef
 ) {
 
   ## Ensures package, config and plugin are removed in case the
