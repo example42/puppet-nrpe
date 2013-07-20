@@ -86,6 +86,10 @@ class nrpe::params {
 
   $process_user = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'nagios',
+    /(?i:SLES|OpenSuSE)/      => $::operatingsystemrelease ? {
+      '12.3'   => 'nagios',
+      default  => 'nrpe',
+    }, 
     default                   => 'nrpe',
   }
 

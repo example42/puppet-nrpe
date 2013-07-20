@@ -342,7 +342,7 @@ class nrpe (
   $enable_check_mount         = params_lookup( 'enable_check_mount' ),
   $enable_check_disk          = params_lookup( 'enable_check_disk' ),
   $enable_check_ageandcontent = params_lookup( 'enable_check_ageandcontent' ),
-  $enable_check_oracle        = params_lookup( 'enable_check_oracle' ),
+  $enable_check_oracle        = params_lookup( 'enable_check_oracle' )
   ) inherits nrpe::params {
 
   $bool_use_ssl=any2bool($use_ssl)
