@@ -24,7 +24,7 @@
 #
 
 define nrpe::plugin_package (
-  $ensure = 'absent',
+  $ensure = 'absent'
 ) {
 
   package { $name:

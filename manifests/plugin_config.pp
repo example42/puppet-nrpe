@@ -24,7 +24,7 @@
 #
 
 define nrpe::plugin_config (
-  $ensure = 'absent',
+  $ensure = 'absent'
 ) {
   
   file { "nrpe_plugin_config_${name}":
