@@ -27,6 +27,11 @@
 #   Where Nagios plugins are placed. Default value is calculated according
 #   to $::operatingsystem and $::architecture
 #
+# [*pluginsdir_source*]
+#   An optional source from which to retrive nagios plugins.
+#   If defined all the plugins placed in pluginsdir_source are copied in
+#   pluginsdir
+#
 # [*pluginspackage*]
 #   Name of the Nagios plugins package name. Default is automatically set
 #   for different distros, set to blank ( pluginspackage => '' ) to
@@ -271,6 +276,7 @@ class nrpe (
   $dont_blame_nrpe     = params_lookup( 'dont_blame_nrpe' ),
   $use_ssl             = params_lookup( 'use_ssl' ),
   $pluginsdir          = params_lookup( 'pluginsdir' ),
+  $pluginsdir_source   = params_lookup( 'pluginsdir_source' ),
   $pluginspackage      = params_lookup( 'pluginspackage' ),
   $command_timeout     = params_lookup( 'command_timeout' ),
   $connection_timeout  = params_lookup( 'connection_timeout' ),
@@ -477,6 +483,20 @@ class nrpe (
       package { $nrpe::pluginspackage : ensure => present }
     }
   }
+
+  if $pluginsdir_source {
+    file { "Nrpe_plugins":
+      path     => "${nrpe::pluginsdir}",
+      owner    => root,
+      group    => root,
+      mode     => '0755',
+      ensure   => directory,
+      require  => Package['nrpe'],
+      source   => $pluginsdir_source,
+      recurse  => true,
+    }
+  }
+
 
   if $bool_enable_sysstat == true {
     include nrpe::plugin::check_sar_perf

@@ -29,6 +29,8 @@ class nrpe::params {
     default                                             => '/usr/lib/nagios/plugins',
   }
 
+  $pluginsdir_source = undef
+
   $pluginspackage = $::operatingsystem ? {
     /(?i:RedHat|Centos|Scientific|Fedora|Amazon|Linux)/ => 'nagios-plugins-all',
     default                                             => 'nagios-plugins',
