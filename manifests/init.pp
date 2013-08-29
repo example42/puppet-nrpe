@@ -485,12 +485,12 @@ class nrpe (
   }
 
   if $pluginsdir_source {
-    file { "Nrpe_plugins":
-      path     => "${nrpe::pluginsdir}",
+    file { 'Nrpe_plugins':
+      ensure   => directory,
+      path     => $nrpe::pluginsdir,
       owner    => root,
       group    => root,
       mode     => '0755',
-      ensure   => directory,
       require  => Package['nrpe'],
       source   => $pluginsdir_source,
       recurse  => true,

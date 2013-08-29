@@ -51,19 +51,19 @@ define nrpe::plugin (
 
   if $source_path or $content {
     file { "Nrpe_plugin_${name}":
-      path    => "${nrpe::pluginsdir}/${name}",
-      owner   => root,
-      group   => root,
-      mode    => '0755',
-      ensure  => $ensure,
-      require => Package['nrpe'],
-      notify  => Service['nrpe'],
-      source  => $source_path,
-      content => $content,
-      seluser => "system_u",
-      selrole => "object_r",
-      seltype => "nagios_unconfined_plugin_exec_t",
-      selrange => "s0",
+      ensure   => $ensure,
+      path     => "${nrpe::pluginsdir}/${name}",
+      owner    => root,
+      group    => root,
+      mode     => '0755',
+      require  => Package['nrpe'],
+      notify   => Service['nrpe'],
+      source   => $source_path,
+      content  => $content,
+      seluser  => 'system_u',
+      selrole  => 'object_r',
+      seltype  => 'nagios_unconfined_plugin_exec_t',
+      selrange => 's0',
     }
   }
 

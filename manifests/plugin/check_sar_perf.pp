@@ -1,3 +1,7 @@
+# Class: nrpe::plugin::check_sar_perf
+#
+# Installs check_sar_perf Nrpe plugin
+#
 class nrpe::plugin::check_sar_perf {
 
   if (! defined( Package[$nrpe::sysstat_package] )) {
