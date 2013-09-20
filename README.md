@@ -12,7 +12,21 @@ Released under the terms of Apache 2 License.
 
 This module requires functions provided by the Example42 Puppi module (you need it even if you don't use and install Puppi)
 
+
+
 For detailed info about the logic and usage patterns of Example42 modules check the DOCS directory on Example42 main modules set.
+
+## USAGE - Solaris Support
+
+* This module supports Solaris platform but doing so requires setting Package Sources in your site.pp
+
+        Package {
+          provider => $osfamily ? {
+            redhat  => yum,
+            solaris => pkgutil,
+            sles    => zypper,
+          }
+        }
 
 ## USAGE - Basic management
 
