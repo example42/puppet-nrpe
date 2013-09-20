@@ -28,6 +28,8 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           }
         }
 
+* Solaris Support is not yet compatible with Puppi
+
 ## USAGE - Basic management
 
 * Install nrpe with default settings
