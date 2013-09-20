@@ -50,6 +50,7 @@ class nrpe::params {
   $file_init_template = $::operatingsystem ? {
     /(?i:RedHat|Centos|Scientific|Fedora|Amazon|Linux)/ => 'nrpe/nrpe-init-redhat.erb',
     /(?i:Debian|Ubuntu|Mint)/                           => 'nrpe/nrpe-init-debian.erb',
+    /(?i:Solaris)/                                      => 'nrpe/nrpe-init-solaris.erb',
     default                                             => 'nrpe/nrpe-init-redhat.erb',
   }
 
@@ -122,6 +123,7 @@ class nrpe::params {
 
   $config_file_init = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/etc/default/nagios-nrpe-server',
+    /(?i:Solaris)/            => '/opt/csw/etc/nrpe-init',
     default                   => '/etc/sysconfig/nrpe',
   }
 
