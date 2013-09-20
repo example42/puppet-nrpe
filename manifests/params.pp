@@ -105,7 +105,7 @@ class nrpe::params {
       default  => '/etc/nagios/nrpe.cfg',
     },
     /(?i:Solaris)/            => '/opt/csw/etc/nrpe.cfg',
-    default => '/etc/nagios/nrpe.cfg',
+    default                   => '/etc/nagios/nrpe.cfg',
   }
 
   $config_file_mode = $::operatingsystem ? {
@@ -128,7 +128,7 @@ class nrpe::params {
   $pid_file = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/                           => '/var/run/nagios/nrpe.pid',
     /(?i:Centos|RedHat|Scientific|Fedora|Amazon|Linux)/ => '/var/run/nrpe/nrpe.pid',
-    /(?i:Solaris)                                       => '/var/run/nrpe.pid',
+    /(?i:Solaris)/                                      => '/var/run/nrpe.pid',
     default                                             => '/var/run/nrpe/nrpe.pid',
   }
 
@@ -141,8 +141,8 @@ class nrpe::params {
   }
 
   $log_file = $::operatingsystem ? {
-    /(?i:Solaris) => '/var/adm/messages',
-    default       => '/var/log/messages',
+    /(?i:Solaris)/ => '/var/adm/messages',
+    default        => '/var/log/messages',
   }
 
   $enable_sysstat  = false
