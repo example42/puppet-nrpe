@@ -26,11 +26,13 @@ class nrpe::params {
       x86_64  => '/usr/lib64/nagios/plugins',
       default => '/usr/lib/nagios/plugins',
     },
+    /(?i:Solaris)/                                      => '/opt/csw/libexec/nagios-plugins',
     default                                             => '/usr/lib/nagios/plugins',
   }
 
   $pluginspackage = $::operatingsystem ? {
     /(?i:RedHat|Centos|Scientific|Fedora|Amazon|Linux)/ => 'nagios-plugins-all',
+    /(?i:Solaris)/                                      => 'nagios_plugins',
     default                                             => 'nagios-plugins',
   }
 
@@ -64,6 +66,7 @@ class nrpe::params {
 
   $service = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'nagios-nrpe-server',
+    /(?i:Solaris)/            => 'cswnrpe',
     default                   => 'nrpe',
   }
 
@@ -86,11 +89,13 @@ class nrpe::params {
       '12.3'   => 'nagios',
       default  => 'nrpe',
     },
+    /(?i:Solaris)             => 'nagios',
     default                   => 'nrpe',
   }
 
   $config_dir = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/etc/nagios/nrpe.d',
+    /(?i:Solaris)/            => '/opt/csw/etc/nrpe.d',
     default                   => '/etc/nrpe.d',
   }
 
@@ -99,6 +104,7 @@ class nrpe::params {
       '12.3'   => '/etc/nrpe.cfg',
       default  => '/etc/nagios/nrpe.cfg',
     },
+    /(?i:Solaris)/            => '/opt/csw/etc/nrpe.cfg',
     default => '/etc/nagios/nrpe.cfg',
   }
 
@@ -122,6 +128,7 @@ class nrpe::params {
   $pid_file = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/                           => '/var/run/nagios/nrpe.pid',
     /(?i:Centos|RedHat|Scientific|Fedora|Amazon|Linux)/ => '/var/run/nrpe/nrpe.pid',
+    /(?i:Solaris)                                       => '/var/run/nrpe.pid',
     default                                             => '/var/run/nrpe/nrpe.pid',
   }
 
@@ -134,7 +141,8 @@ class nrpe::params {
   }
 
   $log_file = $::operatingsystem ? {
-    default => '/var/log/messages',
+    /(?i:Solaris) => '/var/adm/messages',
+    default       => '/var/log/messages',
   }
 
   $enable_sysstat  = false
