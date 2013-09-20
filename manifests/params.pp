@@ -3,6 +3,19 @@
 # This class defines default parameters used by the main module class nrpe
 # Operating Systems differences in names and paths are addressed here
 #
+# NOTE: Solaris support requires Specifying Package Sources in /etc/puppet/manifests/site.pp
+#
+# EXAMPLE:
+#
+#    Package {
+#     provider => $osfamily ? {
+#       redhat  => yum,
+#       solaris => pkgutil,
+#       sles    => zypper,
+#     }
+#   }
+#
+#
 # == Variables
 #
 # Refer to nrpe class for the variables defined here.
