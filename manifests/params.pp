@@ -89,7 +89,7 @@ class nrpe::params {
       '12.3'   => 'nagios',
       default  => 'nrpe',
     },
-    /(?i:Solaris)             => 'nagios',
+    /(?i:Solaris)/            => 'nagios',
     default                   => 'nrpe',
   }
 
