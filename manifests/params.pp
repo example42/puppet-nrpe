@@ -26,6 +26,7 @@ class nrpe::params {
       x86_64  => '/usr/lib64/nagios/plugins',
       default => '/usr/lib/nagios/plugins',
     },
+    /(?i:Solaris)/                                      => '/opt/csw/libexec/nagios-plugins',
     default                                             => '/usr/lib/nagios/plugins',
   }
 
@@ -33,6 +34,7 @@ class nrpe::params {
 
   $pluginspackage = $::operatingsystem ? {
     /(?i:RedHat|Centos|Scientific|Fedora|Amazon|Linux)/ => 'nagios-plugins-all',
+    /(?i:Solaris)/                                      => 'nagios_plugins',
     default                                             => 'nagios-plugins',
   }
 
@@ -50,6 +52,7 @@ class nrpe::params {
   $file_init_template = $::operatingsystem ? {
     /(?i:RedHat|Centos|Scientific|Fedora|Amazon|Linux)/ => 'nrpe/nrpe-init-redhat.erb',
     /(?i:Debian|Ubuntu|Mint)/                           => 'nrpe/nrpe-init-debian.erb',
+    /(?i:Solaris)/                                      => 'nrpe/nrpe-init-solaris.erb',
     default                                             => 'nrpe/nrpe-init-redhat.erb',
   }
 
@@ -66,6 +69,7 @@ class nrpe::params {
 
   $service = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'nagios-nrpe-server',
+    /(?i:Solaris)/            => 'cswnrpe',
     default                   => 'nrpe',
   }
 
@@ -84,12 +88,17 @@ class nrpe::params {
 
   $process_user = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'nagios',
-    /(?i:SLES|OpenSuSE)/      => 'nagios',
+    /(?i:SLES|OpenSuSE)/      => $::operatingsystemrelease ? {
+      '12.3'   => 'nagios',
+      default  => 'nrpe',
+    },
+    /(?i:Solaris)/            => 'nagios',
     default                   => 'nrpe',
   }
 
   $config_dir = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/etc/nagios/nrpe.d',
+    /(?i:Solaris)/            => '/opt/csw/etc/nrpe.d',
     default                   => '/etc/nrpe.d',
   }
 
@@ -98,7 +107,8 @@ class nrpe::params {
       '12.3'   => '/etc/nrpe.cfg',
       default  => '/etc/nagios/nrpe.cfg',
     },
-    default => '/etc/nagios/nrpe.cfg',
+    /(?i:Solaris)/            => '/opt/csw/etc/nrpe.cfg',
+    default                   => '/etc/nagios/nrpe.cfg',
   }
 
   $config_file_mode = $::operatingsystem ? {
@@ -115,12 +125,14 @@ class nrpe::params {
 
   $config_file_init = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/etc/default/nagios-nrpe-server',
+    /(?i:Solaris)/            => '/opt/csw/etc/nrpe-init',
     default                   => '/etc/sysconfig/nrpe',
   }
 
   $pid_file = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/                           => '/var/run/nagios/nrpe.pid',
     /(?i:Centos|RedHat|Scientific|Fedora|Amazon|Linux)/ => '/var/run/nrpe/nrpe.pid',
+    /(?i:Solaris)/                                      => '/var/run/nrpe.pid',
     default                                             => '/var/run/nrpe/nrpe.pid',
   }
 
@@ -133,7 +145,8 @@ class nrpe::params {
   }
 
   $log_file = $::operatingsystem ? {
-    default => '/var/log/messages',
+    /(?i:Solaris)/ => '/var/adm/messages',
+    default        => '/var/log/messages',
   }
 
   $enable_sysstat  = false
