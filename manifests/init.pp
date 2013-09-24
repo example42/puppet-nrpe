@@ -188,6 +188,9 @@
 # [*package*]
 #   The name of nrpe package
 #
+# [*package_source*]
+#    The package source, required for Solaris
+#
 # [*service*]
 #   The name of nrpe service
 #
@@ -302,6 +305,7 @@ class nrpe (
   $debug               = params_lookup( 'debug' , 'global' ),
   $audit_only          = params_lookup( 'audit_only' , 'global' ),
   $package             = params_lookup( 'package' ),
+  $package_source      = params_lookup( 'package_source' ),
   $service             = params_lookup( 'service' ),
   $service_status      = params_lookup( 'service_status' ),
   $process             = params_lookup( 'process' ),
@@ -421,6 +425,7 @@ class nrpe (
   package { 'nrpe':
     ensure => $nrpe::manage_package,
     name   => $nrpe::package,
+    source => $nrpe::package_source,
   }
 
   service { 'nrpe':
