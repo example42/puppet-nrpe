@@ -69,6 +69,11 @@ class nrpe::params {
 
   ### Application related parameters
 
+  $package_source = $::operatingsystem ? {
+    /(?i:Solaris)/ => 'pkgutil',
+    default        => undef,
+  }
+
   $package = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'nagios-nrpe-server',
     /(?i:SLES|OpenSuSE)/      => $::operatingsystemrelease ? {
