@@ -193,6 +193,9 @@
 # [*package*]
 #   The name of nrpe package
 #
+# [*package_provider*]
+#    The package provider, required for Solaris
+#
 # [*service*]
 #   The name of nrpe service
 #
@@ -308,6 +311,7 @@ class nrpe (
   $debug               = params_lookup( 'debug' , 'global' ),
   $audit_only          = params_lookup( 'audit_only' , 'global' ),
   $package             = params_lookup( 'package' ),
+  $package_provider    = params_lookup( 'package_provider' ),
   $service             = params_lookup( 'service' ),
   $service_status      = params_lookup( 'service_status' ),
   $process             = params_lookup( 'process' ),
@@ -425,8 +429,9 @@ class nrpe (
 
   ### Managed resources
   package { 'nrpe':
-    ensure => $nrpe::manage_package,
-    name   => $nrpe::package,
+    ensure   => $nrpe::manage_package,
+    name     => $nrpe::package,
+    provider => $nrpe::package_provider,
   }
 
   service { 'nrpe':
@@ -480,7 +485,10 @@ class nrpe (
   ### Install Nagios Plugins
   if $nrpe::pluginspackage != '' {
     if ! defined(Package[$nrpe::pluginspackage]) {
-      package { $nrpe::pluginspackage : ensure => present }
+      package { $nrpe::pluginspackage : 
+        provider => $nrpe::package_provider,
+        ensure   => present
+      }
     }
   }
 
