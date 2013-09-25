@@ -1,7 +1,6 @@
 # = Class: nrpe
 #
 # This is the main nrpe class
-#A
 #
 #
 # == Parameters
@@ -424,9 +423,9 @@ class nrpe (
 
   ### Managed resources
   package { 'nrpe':
-    ensure => $nrpe::manage_package,
-    name   => $nrpe::package,
-    source => $nrpe::package_provider,
+    ensure   => $nrpe::manage_package,
+    name     => $nrpe::package,
+    provider => $nrpe::package_provider,
   }
 
   service { 'nrpe':
