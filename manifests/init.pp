@@ -1,6 +1,7 @@
 # = Class: nrpe
 #
 # This is the main nrpe class
+#A
 #
 #
 # == Parameters
