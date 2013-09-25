@@ -57,7 +57,7 @@ class nrpe::params {
   ### Application related parameters
 
   $package_provider = $::operatingsystem ? {
-    /(?i:Solaris)/ => pkgutil,
+    /(?i:Solaris)/ => 'pkgutil',
     default        => undef,
   }
 
