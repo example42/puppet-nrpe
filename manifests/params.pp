@@ -27,6 +27,7 @@ class nrpe::params {
       default => '/usr/lib/nagios/plugins',
     },
     /(?i:Solaris)/                                      => '/opt/csw/libexec/nagios-plugins',
+    /(?i:OpenBSD)/                                      => '/usr/local/libexec/nagios',
     default                                             => '/usr/lib/nagios/plugins',
   }
 
@@ -98,6 +99,7 @@ class nrpe::params {
       default  => 'nrpe',
     },
     /(?i:Solaris)/            => 'nagios',
+    /(?i:OpenBSD)/            => '_nrpe',
     default                   => 'nrpe',
   }
 
@@ -113,6 +115,7 @@ class nrpe::params {
       default  => '/etc/nagios/nrpe.cfg',
     },
     /(?i:Solaris)/            => '/opt/csw/etc/nrpe.cfg',
+    /(?i:OpenBSD)/            => '/etc/nrpe.cfg',
     default                   => '/etc/nagios/nrpe.cfg',
   }
 
@@ -125,12 +128,14 @@ class nrpe::params {
   }
 
   $config_file_group = $::operatingsystem ? {
-    default => 'root',
+    /(?i:OpenBSD)/ => 'wheel',
+    default        => 'root',
   }
 
   $config_file_init = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/etc/default/nagios-nrpe-server',
     /(?i:Solaris)/            => '/opt/csw/etc/nrpe-init',
+    /(?i:OpenBSD)/            => '',
     default                   => '/etc/sysconfig/nrpe',
   }
 
