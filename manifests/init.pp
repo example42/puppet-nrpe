@@ -457,17 +457,19 @@ class nrpe (
     audit   => $nrpe::manage_audit,
   }
 
-  file { 'nrpe.init':
-    ensure  => $nrpe::manage_file,
-    path    => $nrpe::config_file_init,
-    mode    => $nrpe::config_file_mode,
-    owner   => $nrpe::config_file_owner,
-    group   => $nrpe::config_file_group,
-    require => Package['nrpe'],
-    notify  => $nrpe::manage_service_autorestart,
-    content => $nrpe::manage_file_init_content,
-    replace => $nrpe::manage_file_replace,
-    audit   => $nrpe::manage_audit,
+  if $nrpe::config_file_init != '' {
+    file { 'nrpe.init':
+      ensure  => $nrpe::manage_file,
+      path    => $nrpe::config_file_init,
+      mode    => $nrpe::config_file_mode,
+      owner   => $nrpe::config_file_owner,
+      group   => $nrpe::config_file_group,
+      require => Package['nrpe'],
+      notify  => $nrpe::manage_service_autorestart,
+      content => $nrpe::manage_file_init_content,
+      replace => $nrpe::manage_file_replace,
+      audit   => $nrpe::manage_audit,
+    }
   }
 
   file { 'nrpe.dir':
