@@ -487,9 +487,9 @@ class nrpe (
   ### Install Nagios Plugins
   if $nrpe::pluginspackage != '' {
     if ! defined(Package[$nrpe::pluginspackage]) {
-      package { $nrpe::pluginspackage : 
+      package { $nrpe::pluginspackage :
+        ensure   => present,
         provider => $nrpe::package_provider,
-        ensure   => present
       }
     }
   }
