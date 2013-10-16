@@ -502,6 +502,7 @@ class nrpe (
       require => Package['nrpe'],
       notify  => $nrpe::manage_service_autorestart,
       target  => $nrpe::config_dir,
+      force   => true,
     }
   }
 
