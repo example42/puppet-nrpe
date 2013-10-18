@@ -105,8 +105,23 @@ class nrpe::params {
 
   $config_dir = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/etc/nagios/nrpe.d',
-    /(?i:Solaris)/            => '/opt/csw/etc/nrpe.d',
+    /(?i:Solaris)/            => '/etc/opt/csw/nrpe.d',
     default                   => '/etc/nrpe.d',
+  }
+
+  $oldcsw = $::operatingsystem ? {
+    /(?i:Solaris)/ => true,
+    default        => false,
+  }
+
+  $oldcsw_config_file = $::operatingsystem ? {
+    /(?i:Solaris)/ => '/opt/csw/etc/nrpe.cfg',
+    default        => '',
+  }
+
+  $oldcsw_config_dir = $::operatingsystem ? {
+    /(?i:Solaris)/ => '/opt/csw/etc/nrpe.d',
+    default        => '',
   }
 
   $config_file = $::operatingsystem ? {
@@ -114,8 +129,8 @@ class nrpe::params {
       '12.3'   => '/etc/nrpe.cfg',
       default  => '/etc/nagios/nrpe.cfg',
     },
-    /(?i:Solaris)/            => '/opt/csw/etc/nrpe.cfg',
     /(?i:OpenBSD)/            => '/etc/nrpe.cfg',
+    /(?i:Solaris)/            => '/etc/opt/csw/nrpe.cfg',
     default                   => '/etc/nagios/nrpe.cfg',
   }
 
@@ -134,8 +149,8 @@ class nrpe::params {
 
   $config_file_init = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/etc/default/nagios-nrpe-server',
-    /(?i:Solaris)/            => '/opt/csw/etc/nrpe-init',
     /(?i:OpenBSD)/            => '',
+    /(?i:Solaris)/            => '/etc/opt/csw/nrpe-init',
     default                   => '/etc/sysconfig/nrpe',
   }
 

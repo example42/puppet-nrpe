@@ -331,6 +331,9 @@ class nrpe (
   $protocol            = params_lookup( 'protocol' ),
   $version             = params_lookup( 'version' ),
   $enable_sysstat      = params_lookup( 'enable_sysstat' ),
+  $oldcsw              = params_lookup( 'oldcsw' ),
+  $oldcsw_config_file  = params_lookup( 'oldcsw_config_file' ),
+  $oldcsw_config_dir   = params_lookup( 'oldcsw_config_dir' ),
   $sysstat_package     = params_lookup( 'sysstat_package')
   ) inherits nrpe::params {
 
@@ -346,6 +349,7 @@ class nrpe (
   $bool_firewall=any2bool($firewall)
   $bool_debug=any2bool($debug)
   $bool_audit_only=any2bool($audit_only)
+  $bool_oldcsw=any2bool($oldcsw)
 
   ### Definition of some variables used in the module
   $manage_package = $nrpe::bool_absent ? {
@@ -482,6 +486,26 @@ class nrpe (
     purge   => $nrpe::bool_source_dir_purge,
     replace => $nrpe::manage_file_replace,
     audit   => $nrpe::manage_audit,
+  }
+
+  ### If we're running on Solaris, deal with CSW's config file location change between CSWnrpe 2.12 and 2.13
+  if $bool_oldcsw {
+    file { 'nrpe.conf.link':
+      ensure  => link,
+      path    => $nrpe::oldcsw_config_file,
+      require => Package['nrpe'],
+      notify  => $nrpe::manage_service_autorestart,
+      target  => $nrpe::config_file,
+    }
+
+    file { 'nrpe.dir.link':
+      ensure  => link,
+      path    => $nrpe::oldcsw_config_dir,
+      require => Package['nrpe'],
+      notify  => $nrpe::manage_service_autorestart,
+      target  => $nrpe::config_dir,
+      force   => true,
+    }
   }
 
   ### Install Nagios Plugins
