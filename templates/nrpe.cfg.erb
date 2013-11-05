@@ -32,4 +32,6 @@ command[check_zombie_procs]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_pro
 command[check_ageandcontent]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_ageandcontent.pl -f "$ARG1$" -i "$ARG2$" -n "$ARG3$" -m "$ARG4$"
 command[check_total_procs]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_procs -w 150 -c 200 
 command[check_ntp]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_ntp -H <%= scope.lookupvar("nrpe::ntp") %>
+<% if @osfamily == 'Debian' -%>
 command[check_apt]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_apt
+<% end -%>
