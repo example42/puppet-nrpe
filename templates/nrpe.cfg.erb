@@ -22,7 +22,7 @@ command[check_processwitharg]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_p
 command[check_port_tcp]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_tcp -H "$ARG1$" -p "$ARG2$"
 command[check_port_udp]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_udp -H "$ARG1$" -p "$ARG2$"
 command[check_url]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_http -I "$ARG1$" -p "$ARG2$" -u "$ARG3$" -r "$ARG4$" -A "$ARG5$" -H "$ARG6$"
-command[check_url_auth]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_http -I "$ARG1$" -p "$ARG2$" -u "$ARG3$" -r "$ARG4$" -a "$ARG5$" -A "$ARG6$"-H "$ARG7"
+command[check_url_auth]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_http -I "$ARG1$" -p "$ARG2$" -u "$ARG3$" -r "$ARG4$" -a "$ARG5$" -A "$ARG6$" -H "$ARG7"
 command[check_swap]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_swap -w 40% -c 20%
 command[check_mailq]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_mailq -w 1 -c 5
 command[check_all_disks_param]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_disk -w 20% -c 10% -L -X tmpfs
@@ -32,4 +32,6 @@ command[check_zombie_procs]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_pro
 command[check_ageandcontent]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_ageandcontent.pl -f "$ARG1$" -i "$ARG2$" -n "$ARG3$" -m "$ARG4$"
 command[check_total_procs]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_procs -w 150 -c 200 
 command[check_ntp]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_ntp -H <%= scope.lookupvar("nrpe::ntp") %>
+<% if @osfamily == 'Debian' -%>
 command[check_apt]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_apt
+<% end -%>
