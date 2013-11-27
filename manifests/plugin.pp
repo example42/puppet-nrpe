@@ -30,7 +30,7 @@
 
 define nrpe::plugin (
   $source = '',
-  $source_prefix = 'puppet:///',
+  $source_prefix = 'puppet:///modules/',
   $template = undef,
   $enable = true,
 ) {

@@ -15,7 +15,7 @@ connection_timeout=<%= scope.lookupvar('nrpe::connection_timeout') %>
 include_dir=<%= scope.lookupvar('nrpe::config_dir') %>/
 
 # COMMAND DEFINITIONS
-# These checks are used in Example42 monitor and Nagios modules 
+# These checks are used in Example42 monitor and Nagios modules
 command[check_mount]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_mount -m "$ARG1$" -t "$ARG2$"
 command[check_process]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_procs -c 1: -C "$ARG1$"
 command[check_processwitharg]=<%= scope.lookupvar('nrpe::pluginsdir') %>/check_procs -c 1: -C "$ARG1$" -a "$ARG2$"
