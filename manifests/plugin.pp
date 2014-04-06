@@ -49,6 +49,11 @@ define nrpe::plugin (
     $content = undef
   }
 
+  $nrpe_plugin_require = $::nrpe::pluginspackage ? {
+    ''      => Package['nrpe'],
+    default => Package['nrpe' , $::nrpe::pluginspackage ]
+  }
+
   if $source_path or $content {
     file { "Nrpe_plugin_${name}":
       ensure   => $ensure,
@@ -56,7 +61,7 @@ define nrpe::plugin (
       owner    => root,
       group    => root,
       mode     => '0755',
-      require  => Package['nrpe'],
+      require  => $nrpe_plugin_require,
       notify   => Service['nrpe'],
       source   => $source_path,
       content  => $content,
