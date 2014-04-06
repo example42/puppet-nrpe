@@ -431,6 +431,11 @@ class nrpe (
     default   => template($nrpe::file_init_template),
   }
 
+  $nrpe_plugin_require = $::nrpe::pluginspackage ? {
+    ''      => Package['nrpe'],
+    default => Package['nrpe' , $::nrpe::pluginspackage ]
+  }
+
   ### Managed resources
   package { 'nrpe':
     ensure   => $nrpe::manage_package,
@@ -525,7 +530,7 @@ class nrpe (
       owner    => root,
       group    => root,
       mode     => '0755',
-      require  => Package['nrpe'],
+      require  => $nrpe::nrpe_plugin_require,
       source   => $pluginsdir_source,
       recurse  => true,
     }
