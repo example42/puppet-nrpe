@@ -7,7 +7,7 @@ nrpe_user=<%= scope.lookupvar('nrpe::process_user') %>
 nrpe_group=<%= scope.lookupvar('nrpe::process_user') %>
 allowed_hosts=<% if @allowed_hosts.class == Array then %><%= @allowed_hosts.flatten.join(',') %><% else %><%= @allowed_hosts %><% end %>
 dont_blame_nrpe=<%= scope.lookupvar('nrpe::dont_blame_nrpe') %>
-<% if scope.lookupvar('nrpe::command_prefix') != '' -%>command_prefix=<%= scope.lookupvar('nrpe::command_prefix') %><% end -%>
+<% if scope.lookupvar('nrpe::command_prefix') != '' -%>command_prefix=<%= scope.lookupvar('nrpe::command_prefix') %><% end %>
 debug=0
 command_timeout=<%= scope.lookupvar('nrpe::command_timeout') %>
 connection_timeout=<%= scope.lookupvar('nrpe::connection_timeout') %>
