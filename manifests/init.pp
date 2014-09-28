@@ -484,6 +484,9 @@ class nrpe (
   file { 'nrpe.dir':
     ensure  => directory,
     path    => $nrpe::config_dir,
+    mode    => $nrpe::config_file_mode,
+    owner   => $nrpe::config_file_owner,
+    group   => $nrpe::config_file_group,
     require => Package['nrpe'],
     notify  => $nrpe::manage_service_autorestart,
     source  => $nrpe::manage_dir_source,
