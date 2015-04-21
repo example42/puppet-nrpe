@@ -437,10 +437,16 @@ class nrpe (
   }
 
   ### Managed resources
+  $real_package_provider = $package_provider ? {
+    ''      => undef,
+    undef   => undef,
+    default => $package_provider,
+  }
+
   package { 'nrpe':
     ensure   => $nrpe::manage_package,
     name     => $nrpe::package,
-    provider => $nrpe::package_provider,
+    provider => $real_package_provider,
   }
 
   service { 'nrpe':
@@ -521,7 +527,7 @@ class nrpe (
     if ! defined(Package[$nrpe::pluginspackage]) {
       package { $nrpe::pluginspackage :
         ensure   => present,
-        provider => $nrpe::package_provider,
+        provider => $real_package_provider,
       }
     }
   }

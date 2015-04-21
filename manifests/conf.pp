@@ -37,7 +37,7 @@
 #   name like the  the name of the title a custom template to use as content of configfile
 #   If defined, configfile file has: content => content("$template")
 #
-# [*mode*] [*owner*] [*group*] [*notify*] [*replace*]
+# [*mode*] [*owner*] [*group*] [*file_notify*] [*replace*]
 #   String. Optional. Default: undef
 #   All these parameters map directly to the created file attributes.
 #   If not defined the module's defaults are used.
@@ -58,7 +58,7 @@ define nrpe::conf (
   $mode         = undef,
   $owner        = undef,
   $group        = undef,
-  $notify       = undef,
+  $file_notify  = undef,
   $replace      = undef,
 
   $options_hash = undef,
@@ -105,7 +105,7 @@ define nrpe::conf (
     mode    => $managed_mode,
     owner   => $managed_owner,
     group   => $managed_group,
-    notify  => $notify,
+    notify  => $file_notify,
     replace => $replace,
   }
 
