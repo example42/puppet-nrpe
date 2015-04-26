@@ -450,12 +450,12 @@ class nrpe (
   }
 
   service { 'nrpe':
-    ensure     => $nrpe::manage_service_ensure,
-    name       => $nrpe::service,
-    enable     => $nrpe::manage_service_enable,
-    hasstatus  => $nrpe::service_status,
-    pattern    => $nrpe::process,
-    require    => Package['nrpe'],
+    ensure    => $nrpe::manage_service_ensure,
+    name      => $nrpe::service,
+    enable    => $nrpe::manage_service_enable,
+    hasstatus => $nrpe::service_status,
+    pattern   => $nrpe::process,
+    require   => Package['nrpe'],
   }
 
   file { 'nrpe.conf':
@@ -534,14 +534,14 @@ class nrpe (
 
   if $pluginsdir_source {
     file { 'Nrpe_plugins':
-      ensure   => directory,
-      path     => $nrpe::pluginsdir,
-      owner    => root,
-      group    => root,
-      mode     => '0755',
-      require  => $nrpe::nrpe_plugin_require,
-      source   => $pluginsdir_source,
-      recurse  => true,
+      ensure  => directory,
+      path    => $nrpe::pluginsdir,
+      owner   => root,
+      group   => root,
+      mode    => '0755',
+      require => $nrpe::nrpe_plugin_require,
+      source  => $pluginsdir_source,
+      recurse => true,
     }
   }
 
