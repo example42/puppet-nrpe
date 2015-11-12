@@ -57,7 +57,7 @@ For detailed info about the logic and usage patterns of Example42 modules check 
           dont_blame_nrpe => '0',
           command_prefix  => '/usr/bin/sudo',
           use_ssl         => true,             # Already true by default
-          server_address  => $::ipadress_eth1, # Listen only on eth1 interface
+          server_address  => $::ipaddress_eth1, # Listen only on eth1 interface
         }
 
 * Do not automatically install Nagios plugins
