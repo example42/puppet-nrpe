@@ -532,7 +532,7 @@ class nrpe (
     }
   }
 
-  if $pluginsdir_source {
+  if $pluginsdir_source and $pluginsdir_source != '' {
     file { 'Nrpe_plugins':
       ensure  => directory,
       path    => $nrpe::pluginsdir,
