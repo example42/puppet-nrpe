@@ -1,6 +1,6 @@
 {
   "name": "example42-nrpe",
-  "version": "2.0.16",
+  "version": "2.0.17",
   "summary": "Puppet module for nrpe",
   "author": "Alessandro Franceschi",
   "description": "This module installs and manages nrpe. Check README.rdoc for details. Puppi is required for some common functions: you can install them without using the whole module. Monitor and firewall dependencies are needed only if the relevant features are enabled",
