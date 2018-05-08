@@ -551,7 +551,7 @@ class nrpe (
   }
 
   ### Include custom class if $my_class is set
-  if $nrpe::my_class {
+  if $nrpe::my_class and $nrpe::my_class != '' {
     include $nrpe::my_class
   }
 
